@@ -1,5 +1,8 @@
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using Infastructure;
+using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
 
@@ -141,17 +144,21 @@ public class PlayCubeController : MonoBehaviour
         _maxSize = IncrementVector(_currentSize, .3f);
 
         GameSettings.OnSetPosition += InitPosition;
+        
+        // transform.DORotate(new Vector3(360,360, 180), _defaultAngleStep, RotateMode.FastBeyond360)
+        //     .SetEase(Ease.Linear)
+        //     .SetLoops(int.MaxValue);
     }
 
     private void InitPosition(Vector3 position)
     {
         _currentPosition = position;
-        _transform.position = position;
+        //_transform.position = position;
         _initPosition = position;
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         switch (_state)
         {
@@ -174,15 +181,29 @@ public class PlayCubeController : MonoBehaviour
 
 
         // ???????????? hover
-        HandleMouseOver();
+        //HandleMouseOver();
     }
 
+    [CanBeNull] private TweenerCore<Vector3, Vector3, VectorOptions> _mouseOverScale;
+    [CanBeNull] private TweenerCore<Vector3, Vector3, VectorOptions> _mouseExitScale;
+    
     void OnMouseOver()
     {
+        Debug.Log("1");
         if (!_mouseActionState.IsMouseOver && _state is PlayCubeState.NoAction or PlayCubeState.Drag)
         {
             _mouseActionState.IsHoverHandled = false;
             _mouseActionState.IsMouseOver = true;
+
+            if (!_mouseActionState.IsHoverHandled && _mouseActionState.IsBtnHolded)
+            {
+                if (_mouseExitScale != null)
+                {
+                    _mouseExitScale.Kill();
+                }
+                _mouseOverScale = _transform.DOScale(_maxSize, 0.1f).SetEase(Ease.Linear);
+            }
+           
         }
     }
 
@@ -192,6 +213,15 @@ public class PlayCubeController : MonoBehaviour
         {
             _mouseActionState.IsMouseOver = false;
             _mouseActionState.IsHoverHandled = false;
+
+            if (!_mouseActionState.IsHoverHandled && _mouseActionState.IsBtnHolded)
+            {
+                if (_mouseOverScale != null)
+                {
+                    _mouseOverScale.Kill();
+                }
+                _mouseExitScale = _transform.DOScale(_initSize, 0.1f).SetEase(Ease.Linear);
+            }
         }
     }
 
@@ -323,10 +353,9 @@ public class PlayCubeController : MonoBehaviour
     {
         if (IsCubeStopped())
         {
-            _angles = Vector3.zero;
+            
             FreezePosition(true);
-            SetNewInitPosition();
-
+            
             if (IsDead())
             {
                 _deadPopup.gameObject.SetActive(true);
@@ -334,6 +363,15 @@ public class PlayCubeController : MonoBehaviour
             }
             else
             {
+                SetNewInitPosition();
+                _angles = Vector3.zero;
+                _transform.DOMove(_initPosition, 2f)
+                    .OnComplete(() =>
+                    {
+                        //_currentPosition = _initPosition;
+                        Debug.Log("Move ended");
+                        _state = PlayCubeState.NoAction;
+                    });
                 _state = PlayCubeState.RiseUp;
             }
         }
@@ -358,42 +396,10 @@ public class PlayCubeController : MonoBehaviour
     {
         _initPosition = new Vector3(transform.position.x, transform.position.y + _initHeight, 0);
         _cameraFlow.SetCubeInitPosition(_initPosition);
-        _positionYBeforeRiseUp = _currentPosition.y;
-    }
-
-    float RiseUpFunc(float x)
-    {
-        return x * 0.01f;
     }
 
     private void HandleRiseUp()
     {
-        _transform.DOMove(Vector3.down, 1f).OnComplete(SetNewInitPosition);
-        _returnToInitPositionDeltaTime += Time.fixedDeltaTime;
-
-        if (_returnToInitPositionDeltaTime >= _returnToInitPositionTime)
-        {
-            _returnToInitPositionDeltaTime = 0;
-
-            var positionY = _positionYBeforeRiseUp + RiseUpFunc(_riseUpStep);
-
-            _currentPosition = new Vector3(_currentPosition.x, positionY, 0);
-
-            _riseUpStep += 5;
-
-
-            if (_currentPosition.y >= _initPosition.y)
-            {
-                _currentPosition = _initPosition;
-                _state = PlayCubeState.NoAction;
-                _riseUpStep = 1;
-            }
-        }
-
-
-        //_currentPosition = Vector3.Lerp(_currentPosition, _initPosition, Time.fixedDeltaTime * _riseUpSpeed);
-
-
         RotateArround(_defaultAngleStep);
     }
 
@@ -421,7 +427,7 @@ public class PlayCubeController : MonoBehaviour
 
     private void RotateArround(float angleStep)
     {
-        _rotationDeltaTime += Time.fixedDeltaTime;
+        _rotationDeltaTime += Time.deltaTime;
 
         if (_rotationDeltaTime > _maxRotationDeltaTime)
         {
@@ -448,7 +454,7 @@ public class PlayCubeController : MonoBehaviour
             return;
         }
 
-        _scaleDeltaTime += Time.fixedDeltaTime;
+        _scaleDeltaTime += Time.deltaTime;
 
         if (_scaleDeltaTime > _maxScaleDeltaTime)
         {

@@ -1,13 +1,16 @@
+using System;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Infastructure;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class PlayCubeController : MonoBehaviour
 {
+    public static event Action<PlayCubeState> OnStateChanged;
     #region serialize fields
 
     [Inject] SoundManager _soundManager;
@@ -21,17 +24,16 @@ public class PlayCubeController : MonoBehaviour
     [SerializeField] GameObject _deadPopup;
 
     [SerializeField] private LifeCounter _lifeCounter;
-
-    [SerializeField] float _velocityDropCoefficient = 3;
-
-    [SerializeField] float _angularVelocityDropCoefficient = 5;
-
-    [SerializeField] float _initHeight = 2;
-
-    [SerializeField] float _riseUpSpeed = 1;
-
-
+    
     [SerializeField] private TrajectionLine _trajectionLine;
+
+    float _velocityDropCoefficient = 10;
+
+    float _angularVelocityDropCoefficient = 5;
+
+    float _initHeight = 2;
+
+    float _riseUpTime = 1;
 
     #endregion
 
@@ -57,12 +59,6 @@ public class PlayCubeController : MonoBehaviour
     private float _maxRotationDeltaTime = 0.03f;
     private float _rotationDeltaTime;
 
-    private float _maxScaleDeltaTime = 0.03f;
-    private float _scaleDeltaTime;
-
-    private float _returnToInitPositionTime = 0.03f;
-    private float _returnToInitPositionDeltaTime;
-
     #endregion
 
     #region angles fields
@@ -78,21 +74,6 @@ public class PlayCubeController : MonoBehaviour
 
     #endregion angles
 
-    #region size fields
-
-    private Vector3 _initSize;
-
-    private Vector3 _currentSize
-    {
-        get { return _transform.localScale; }
-        set { _transform.localScale = value; }
-    }
-
-    private float _sizeIncrementStep = 0.05f;
-    private Vector3 _maxSize;
-
-    #endregion
-
     #region position fields
 
     private Vector3 _initPosition;
@@ -106,10 +87,7 @@ public class PlayCubeController : MonoBehaviour
     private float _maxDistanceFromInitPosition = 2f;
 
     private float _distanceToDrag = 0.01f;
-
-    float _riseUpStep = 1f;
-    float _positionYBeforeRiseUp;
-
+    
     #endregion
 
     #region Getters
@@ -139,22 +117,8 @@ public class PlayCubeController : MonoBehaviour
         FreezePosition(true);
 
         _angles = gameObject.transform.eulerAngles;
-
-        _initSize = gameObject.transform.localScale;
-        _maxSize = IncrementVector(_currentSize, .3f);
-
-        GameSettings.OnSetPosition += InitPosition;
         
-        // transform.DORotate(new Vector3(360,360, 180), _defaultAngleStep, RotateMode.FastBeyond360)
-        //     .SetEase(Ease.Linear)
-        //     .SetLoops(int.MaxValue);
-    }
-
-    private void InitPosition(Vector3 position)
-    {
-        _currentPosition = position;
-        //_transform.position = position;
-        _initPosition = position;
+        GameSettings.OnSetPosition += v => SetNewInitPosition(v);
     }
 
     // Update is called once per frame
@@ -178,53 +142,8 @@ public class PlayCubeController : MonoBehaviour
                 HandleFinishState();
                 break;
         }
-
-
-        // ???????????? hover
-        //HandleMouseOver();
     }
-
-    [CanBeNull] private TweenerCore<Vector3, Vector3, VectorOptions> _mouseOverScale;
-    [CanBeNull] private TweenerCore<Vector3, Vector3, VectorOptions> _mouseExitScale;
     
-    void OnMouseOver()
-    {
-        Debug.Log("1");
-        if (!_mouseActionState.IsMouseOver && _state is PlayCubeState.NoAction or PlayCubeState.Drag)
-        {
-            _mouseActionState.IsHoverHandled = false;
-            _mouseActionState.IsMouseOver = true;
-
-            if (!_mouseActionState.IsHoverHandled && _mouseActionState.IsBtnHolded)
-            {
-                if (_mouseExitScale != null)
-                {
-                    _mouseExitScale.Kill();
-                }
-                _mouseOverScale = _transform.DOScale(_maxSize, 0.1f).SetEase(Ease.Linear);
-            }
-           
-        }
-    }
-
-    void OnMouseExit()
-    {
-        if (_mouseActionState.IsMouseOver)
-        {
-            _mouseActionState.IsMouseOver = false;
-            _mouseActionState.IsHoverHandled = false;
-
-            if (!_mouseActionState.IsHoverHandled && _mouseActionState.IsBtnHolded)
-            {
-                if (_mouseOverScale != null)
-                {
-                    _mouseOverScale.Kill();
-                }
-                _mouseExitScale = _transform.DOScale(_initSize, 0.1f).SetEase(Ease.Linear);
-            }
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (_state == PlayCubeState.Drop)
@@ -242,7 +161,7 @@ public class PlayCubeController : MonoBehaviour
         if (TryHandleDrag())
         {
             _state = PlayCubeState.Drag;
-
+            OnStateChanged?.Invoke(PlayCubeState.Drag);
             return;
         }
 
@@ -251,7 +170,6 @@ public class PlayCubeController : MonoBehaviour
 
     private bool TryHandleDrag()
     {
-        // ??????? ??? ? ?????
         if (Input.GetMouseButtonDown(0))
         {
             var newPosition = GetMousePosition();
@@ -267,9 +185,7 @@ public class PlayCubeController : MonoBehaviour
 
             _trajectionLine.Activate(_initPosition);
         }
-
-        // ????? ????????? ??? ? ????? - ???????? ??????, ???????? ???????? ? ??????? ????????.
-        // ????????? ??????????????? Drop
+        
         if (Input.GetMouseButtonUp(0) && _mouseActionState.IsBtnHolded)
         {
             var newPosition = GetMousePosition();
@@ -283,8 +199,7 @@ public class PlayCubeController : MonoBehaviour
             if (!isClickInCubeZone)
             {
                 distanceFromInit = _maxDistanceFromInitPosition;
-
-                // ???? ???? ????????? ?? ???????? ?????? ?????????? ???????
+                
                 var angleOnBorder = Mathf.Atan2(newPosition.y - _initPosition.y, newPosition.x - _initPosition.x);
                 var newPositionX = Mathf.Cos(angleOnBorder) * _maxDistanceFromInitPosition + _initPosition.x;
                 var newPositionY = Mathf.Sin(angleOnBorder) * _maxDistanceFromInitPosition + _initPosition.y;
@@ -300,19 +215,18 @@ public class PlayCubeController : MonoBehaviour
             _rigidbody.angularVelocity = new Vector3(distanceFromInit * _angularVelocityDropCoefficient,
                 distanceFromInit * _angularVelocityDropCoefficient, distanceFromInit * _angularVelocityDropCoefficient);
 
-            _state = PlayCubeState.Drop;
+           
 
             _mouseActionState.IsBtnHolded = false;
 
-            _mouseActionState.IsHoverHandled = false;
-
             _trajectionLine.Deactivate();
-
+            
+            _state = PlayCubeState.Drop;
+            
+            OnStateChanged?.Invoke(PlayCubeState.Drop);
             return false;
         }
-
-        // ???????????? ??????? ??? ?? ???????
-        // ??????? ??????
+        
         if (_mouseActionState.IsBtnHolded)
         {
             var newPosition = GetMousePosition();
@@ -329,8 +243,7 @@ public class PlayCubeController : MonoBehaviour
             else
             {
                 distanceFromInit = _maxDistanceFromInitPosition;
-
-                // ???? ???? ????????? ?? ???????? ?????? ?????????? ???????
+                
                 var angleOnBorder = Mathf.Atan2(newPosition.y - _initPosition.y, newPosition.x - _initPosition.x);
 
                 var newPositionX = Mathf.Cos(angleOnBorder) * _maxDistanceFromInitPosition + _initPosition.x;
@@ -353,7 +266,6 @@ public class PlayCubeController : MonoBehaviour
     {
         if (IsCubeStopped())
         {
-            
             FreezePosition(true);
             
             if (IsDead())
@@ -365,14 +277,13 @@ public class PlayCubeController : MonoBehaviour
             {
                 SetNewInitPosition();
                 _angles = Vector3.zero;
-                _transform.DOMove(_initPosition, 2f)
+                _transform.DOMove(_initPosition, _riseUpTime)
                     .OnComplete(() =>
                     {
-                        //_currentPosition = _initPosition;
-                        Debug.Log("Move ended");
                         _state = PlayCubeState.NoAction;
                     });
                 _state = PlayCubeState.RiseUp;
+                OnStateChanged?.Invoke(PlayCubeState.RiseUp);
             }
         }
     }
@@ -392,9 +303,18 @@ public class PlayCubeController : MonoBehaviour
         return _lifeCounter.IsLifeEnded();
     }
 
-    private void SetNewInitPosition()
+    private void SetNewInitPosition(Vector3? initPosition = null)
     {
-        _initPosition = new Vector3(transform.position.x, transform.position.y + _initHeight, 0);
+        if (initPosition.HasValue)
+        {
+            _currentPosition = initPosition.Value;
+            _initPosition = initPosition.Value;
+        }
+        else
+        {
+            _initPosition = new Vector3(transform.position.x, transform.position.y + _initHeight, 0);
+        }
+        
         _cameraFlow.SetCubeInitPosition(_initPosition);
     }
 
@@ -442,55 +362,7 @@ public class PlayCubeController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// ???????????? ????????? ??????? ?????? ??? ????????? ???? ? ??? ??????? ?????? ????.
-    /// 
-    /// ???? IsHoverHandled = true, ?? ?? ????????????
-    /// </summary>
-    private void HandleMouseOver()
-    {
-        if (_mouseActionState.IsHoverHandled)
-        {
-            return;
-        }
-
-        _scaleDeltaTime += Time.deltaTime;
-
-        if (_scaleDeltaTime > _maxScaleDeltaTime)
-        {
-            _scaleDeltaTime = 0;
-
-            if (_mouseActionState.IsMouseOver || (!_mouseActionState.IsHoverHandled && _mouseActionState.IsBtnHolded))
-            {
-                _currentSize = IncrementVector(_currentSize, _sizeIncrementStep);
-
-                _mouseActionState.IsHoverHandled = _currentSize.x >= _maxSize.x;
-
-                if (_mouseActionState.IsHoverHandled)
-                {
-                    _currentSize = _maxSize;
-                }
-            }
-            else
-            {
-                _currentSize = IncrementVector(_currentSize, -_sizeIncrementStep);
-
-                _mouseActionState.IsHoverHandled = _currentSize.x <= _initSize.x;
-
-                if (_mouseActionState.IsHoverHandled)
-                {
-                    _currentSize = _initSize;
-                }
-            }
-        }
-    }
-
     #endregion
-
-    private Vector3 IncrementVector(Vector3 v, float step)
-    {
-        return new Vector3(v.x + step, v.y + step, v.z + step);
-    }
 
     private Vector3 GetMousePosition()
     {

@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 using Zenject;
@@ -6,10 +7,11 @@ using Zenject;
 public class CameraFlow : MonoBehaviour
 {
     [Inject] private PlayCubeController _playCube;
-    private float _unzoomSpeed = 0.5f;
-    [SerializeField] private float _zoomSpeed = 3;
-    [SerializeField] private float _zOffset = 12;
-    [SerializeField] private float _zOffsetOnDrop = 20;
+    [SerializeField] private CinemachineVirtualCamera _camera;
+    private float _unzoomSpeed = 0.3f;
+    private float _zoomSpeed = 0.7f;
+    private float _zOffset = 12;
+    private float _zOffsetOnDrop = 20;
 
     private Transform _cubeTransform;
     private Vector3 _cubeInitPosition;
@@ -25,8 +27,8 @@ public class CameraFlow : MonoBehaviour
 
     private void Awake()
     {
-        _cubeTransform = _playCube.transform;
-        _cameraState = CameraState.Game;
+        // _cubeTransform = _playCube.transform;
+        // _cameraState = CameraState.Game;
 
         PlayCubeController.OnStateChanged += HandleGameState;
     }
@@ -34,14 +36,14 @@ public class CameraFlow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        transform.position = new Vector3(
-            _cubeTransform.position.x,
-            _cubeTransform.position.y,
-            _cubeTransform.position.z - _zOffset
-            );
+        //
+        // transform.position = new Vector3(
+        //     _cubeTransform.position.x,
+        //     _cubeTransform.position.y,
+        //     _cubeTransform.position.z - _zOffset
+        //     );
 
-        _cubeInitPosition = _cubeTransform.position;
+        //_cubeInitPosition = _cubeTransform.position;
     }
 
     void Update()
@@ -52,11 +54,11 @@ public class CameraFlow : MonoBehaviour
                 //HandleGameState();
                 break;
             case CameraState.FollowCube:
-                transform.position = new Vector3(
-                    _cubeTransform.position.x,
-                    _cubeTransform.position.y,
-                    _cubeTransform.position.z - _zOffsetOnDrop
-                );;
+                // transform.position = new Vector3(
+                //     _cubeTransform.position.x,
+                //     _cubeTransform.position.y,
+                //     _cubeTransform.position.z - _zOffsetOnDrop
+                // );;
                 break;
         }
     }
@@ -73,8 +75,8 @@ public class CameraFlow : MonoBehaviour
         switch (cubeState)
         {
             case PlayCubeController.PlayCubeState.NoAction:
-                _zoomTransitionEnded = false;
-                SetToCubeWithZoom();
+                // _zoomTransitionEnded = false;
+                // SetToCubeWithZoom();
                 break;
             case PlayCubeController.PlayCubeState.Drag:
                 UnzoomCameraWithTransition();
@@ -89,64 +91,45 @@ public class CameraFlow : MonoBehaviour
                 ZoomCameraWithTransition();
                 break;
             default:
-                _zoomTransitionEnded = false;
-                SetToCubePositionWithUnzoom();
+                // _zoomTransitionEnded = false;
+                // SetToCubePositionWithUnzoom();
                 break;
         }
     }
 
     private void SetToCubePositionWithUnzoom()
     {
-        transform.position = new Vector3(
-            _cubeTransform.position.x,
-            _cubeTransform.position.y,
-            _cubeTransform.position.z - _zOffsetOnDrop
-        );
+        // transform.position = new Vector3(
+        //     _cubeTransform.position.x,
+        //     _cubeTransform.position.y,
+        //     _cubeTransform.position.z - _zOffsetOnDrop
+        // );
     }
 
     private void UnzoomCameraWithTransition()
     {
-        // if (_zoomTransitionEnded) 
-        // {
-        //     return;
-        // }
-        // var targetZCoord = _cubeInitPosition.z - _zOffsetOnDrop;
-
-        transform.DOMoveZ(_cubeInitPosition.z - _zOffsetOnDrop, _unzoomSpeed);
-
-        // var zCoord = Mathf.Lerp(transform.position.z, targetZCoord, _unzoomSpeed * Time.deltaTime);
-        //
-        // if (Mathf.Round(zCoord * 100) == targetZCoord * 100) 
-        // {
-        //     _zoomTransitionEnded = true;
-        //     zCoord = targetZCoord;
-        // }
-        //
-        // // Debug.Log($"{zCoord} {_zoomTransitionEnded}");
-        //
-        // transform.position = new Vector3(
-        //     _cubeInitPosition.x,
-        //     _cubeInitPosition.y,
-        //     zCoord
-        // );
+        var cubeInitPosition = _playCube.GetInitPosition();
+        
+        var targetPosition= new Vector3(cubeInitPosition.x, cubeInitPosition.y, -20);
+        _camera.m_Follow.DOMove(targetPosition, _zoomSpeed).SetEase(Ease.Flash);
+       // transform.DOMove(targetPosition, _unzoomSpeed).SetEase(Ease.Flash);
     }
 
     private void ZoomCameraWithTransition()
     {
         var cubeInitPosition = _playCube.GetInitPosition();
         
-        transform.position = new Vector3(cubeInitPosition.x, cubeInitPosition.y, transform.position.z);
-        
-        transform.DOMoveZ(_cubeInitPosition.z - _zOffsetOnDrop, _zoomSpeed);
+        var targetPosition= new Vector3(cubeInitPosition.x, cubeInitPosition.y, -12);
+        _camera.m_Follow.DOMove(targetPosition, _zoomSpeed).SetEase(Ease.Flash);
     }
 
     private void SetToCubeWithZoom()
     {
-        transform.position = new Vector3(
-           _cubeTransform.position.x,
-           _cubeTransform.position.y,
-           _cubeTransform.position.z - _zOffset
-        );
+        // transform.position = new Vector3(
+        //    _cubeTransform.position.x,
+        //    _cubeTransform.position.y,
+        //    _cubeTransform.position.z - _zOffset
+        // );
     }
 
     public enum CameraState

@@ -281,6 +281,7 @@ public class PlayCubeController : MonoBehaviour
                     .OnComplete(() =>
                     {
                         _state = PlayCubeState.NoAction;
+                        OnStateChanged?.Invoke(PlayCubeState.NoAction);
                     });
                 _state = PlayCubeState.RiseUp;
                 OnStateChanged?.Invoke(PlayCubeState.RiseUp);

@@ -4,6 +4,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Infastructure;
 using JetBrains.Annotations;
+using Levels;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -17,14 +18,6 @@ public class PlayCubeController : MonoBehaviour
 
     [SerializeField] Camera _camera;
 
-    [SerializeField] CameraFlow _cameraFlow;
-
-    [SerializeField] GameObject _finishPopup;
-
-    [SerializeField] GameObject _deadPopup;
-
-    [SerializeField] private LifeCounter _lifeCounter;
-    
     [SerializeField] private TrajectionLine _trajectionLine;
 
     float _velocityDropCoefficient = 10;
@@ -85,8 +78,7 @@ public class PlayCubeController : MonoBehaviour
     }
 
     private float _maxDistanceFromInitPosition = 2f;
-
-    private float _distanceToDrag = 0.01f;
+    
     
     #endregion
 
@@ -106,10 +98,16 @@ public class PlayCubeController : MonoBehaviour
 
     #region Unity methods
 
-    private void Awake()
-    {
-        Application.targetFrameRate = 90;
+    private GamePlayHandler _gamePlayHandler;
 
+    [Inject]
+    private void Constructor(GamePlayHandler gamePlayHandler)
+    {
+        _gamePlayHandler = gamePlayHandler;
+    }
+    
+    private void OnEnable()
+    {
         _transform = transform;
 
         _rigidbody = GetComponent<Rigidbody>();
@@ -118,7 +116,12 @@ public class PlayCubeController : MonoBehaviour
 
         _angles = gameObject.transform.eulerAngles;
         
-        GameSettings.OnSetPosition += v => SetNewInitPosition(v);
+        GameSettings.OnLevelChanged += LevelChaged;
+    }
+
+    private void OnDisable()
+    {
+        GameSettings.OnLevelChanged -= LevelChaged;
     }
 
     // Update is called once per frame
@@ -270,8 +273,8 @@ public class PlayCubeController : MonoBehaviour
             
             if (IsDead())
             {
-                _deadPopup.gameObject.SetActive(true);
                 _state = PlayCubeState.Dead;
+                OnStateChanged?.Invoke(_state);
             }
             else
             {
@@ -281,11 +284,12 @@ public class PlayCubeController : MonoBehaviour
                     .OnComplete(() =>
                     {
                         _state = PlayCubeState.NoAction;
-                        OnStateChanged?.Invoke(PlayCubeState.NoAction);
+                        OnStateChanged?.Invoke(_state);
                     });
                 _state = PlayCubeState.RiseUp;
-                OnStateChanged?.Invoke(PlayCubeState.RiseUp);
+                OnStateChanged?.Invoke(_state);
             }
+            
         }
     }
 
@@ -293,17 +297,24 @@ public class PlayCubeController : MonoBehaviour
     {
         _rigidbody.angularVelocity = Vector3.zero;
         FreezePosition(true);
-        _finishPopup.gameObject.SetActive(true);
         _state = PlayCubeState.Finish;
+        OnStateChanged?.Invoke(_state);
     }
 
     private bool IsDead()
     {
-        _lifeCounter.DecrementLife();
-
-        return _lifeCounter.IsLifeEnded();
+        return _gamePlayHandler.DecrementLife();
     }
 
+    private void LevelChaged(LevelInfo level)
+    {
+        if (level != null)
+        {
+            SetNewInitPosition(level.StartPosition);
+            _state = PlayCubeState.NoAction;
+        }
+    }
+    
     private void SetNewInitPosition(Vector3? initPosition = null)
     {
         if (initPosition.HasValue)
@@ -315,8 +326,9 @@ public class PlayCubeController : MonoBehaviour
         {
             _initPosition = new Vector3(transform.position.x, transform.position.y + _initHeight, 0);
         }
-        
-        _cameraFlow.SetCubeInitPosition(_initPosition);
+        _rigidbody.velocity = Vector3.zero;
+        FreezePosition(true);
+
     }
 
     private void HandleRiseUp()

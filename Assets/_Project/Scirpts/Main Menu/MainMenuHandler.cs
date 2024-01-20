@@ -4,16 +4,28 @@ using Zenject;
 
 public class MainMenuHandler : MonoBehaviour
 {
+    [SerializeField] private GameObject _continueGameButton;
     private GameSettings _gameSettings;
+    
     
     [Inject]
     private void Construct(GameSettings gameSettings)
     {
         _gameSettings = gameSettings;
     }
-    
-    public void OnStartClick()
+
+    private void OnEnable()
+    {
+        _continueGameButton.SetActive(_gameSettings.SaveLevel != 0);
+    }
+
+    public void StartGame()
     {
         _gameSettings.RestartLevel();
+    }
+
+    public void ContinueGame()
+    {
+        _gameSettings.LastOpenLevel();
     }
 }

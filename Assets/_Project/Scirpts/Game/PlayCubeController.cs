@@ -93,6 +93,11 @@ public class PlayCubeController : MonoBehaviour
     {
         return _initPosition;
     }
+    
+    public Vector3 GetPosition()
+    {
+        return _currentPosition;
+    }
 
     #endregion
 

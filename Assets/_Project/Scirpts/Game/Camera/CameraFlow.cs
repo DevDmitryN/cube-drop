@@ -10,7 +10,8 @@ public class CameraFlow : MonoBehaviour
     private CinemachineTransposer _transporter;
     private State _cameraState;
 
-    private const float ZOOM_SPEED = 5f;
+    private const float ZOOM_SPEED = 10f;
+    private const float UNZOOM_SPEED = 20f;
     private const float Z_OFFSET = -12f;
     private const float Z_OFFSET_ON_DROP = -20f;
 
@@ -63,7 +64,7 @@ public class CameraFlow : MonoBehaviour
             return;
         }
 
-        _transporter.m_FollowOffset = new Vector3(0, 0, _transporter.m_FollowOffset.z - ZOOM_SPEED * Time.deltaTime);
+        _transporter.m_FollowOffset = new Vector3(0, 0, _transporter.m_FollowOffset.z - UNZOOM_SPEED * Time.deltaTime);
         //* _curve.Evaluate(-1 * (_transporter.m_FollowOffset.z + -1 * Z_OFFSET) / (Z_OFFSET + -1 * Z_OFFSET_ON_DROP)));
     }
 

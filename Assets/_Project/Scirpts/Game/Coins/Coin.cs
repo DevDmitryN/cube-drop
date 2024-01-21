@@ -7,8 +7,8 @@ public class Coin : MonoBehaviour
 {
     public static event Action OnCoinCollected;
     
-    [SerializeField] private Vector3 _angles = new Vector3(360, 90, 180);
-    [SerializeField] private float _cointRotationSpeed = 2;
+    private readonly Vector3 TARGET_ROTATION_ANGLES = new Vector3(360, 360, 180);
+    private const float COIN_ROTATION_SPEED = 8;
     
     private float _rotationDeltaTime;
     
@@ -24,10 +24,11 @@ public class Coin : MonoBehaviour
 
     private void OnEnable()
     {
-        _angles = transform.eulerAngles;
-        transform.DORotate(_angles, _cointRotationSpeed, RotateMode.FastBeyond360)
-            .SetEase(Ease.Linear)
-            .SetLoops(int.MaxValue);
+        //_angles = transform.eulerAngles;
+         transform.DORotate(TARGET_ROTATION_ANGLES, COIN_ROTATION_SPEED, RotateMode.FastBeyond360)
+             .SetRelative()
+             .SetEase(Ease.Linear)
+             .SetLoops(-1, LoopType.Incremental);
     }
 
     private void OnDisable()

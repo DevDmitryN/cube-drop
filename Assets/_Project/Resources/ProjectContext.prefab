@@ -441,6 +441,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &376185887207109503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4437847039094581309}
+  m_Layer: 0
+  m_Name: GhostCube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4437847039094581309
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376185887207109503}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4370452683788637630}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &408127959609212070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1533,7 +1564,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609164066937656660}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00090909976, y: -0.000000017206306, z: -1.5642258e-11, w: 0.9999996}
+  m_LocalRotation: {x: -0.0009090799, y: 0.000000017206604, z: 1.5642185e-11, w: 0.9999996}
   m_LocalPosition: {x: 0, y: 0, z: -16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1559,8 +1590,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 5770128730339807026}
-  m_Follow: {fileID: 5770128730339807026}
+  m_LookAt: {fileID: 4437847039094581309}
+  m_Follow: {fileID: 4437847039094581309}
   m_Lens:
     FieldOfView: 60.000004
     OrthographicSize: 10
@@ -4325,6 +4356,7 @@ Transform:
   - {fileID: 7964877387798368220}
   - {fileID: 6504463130695246700}
   - {fileID: 4400453106887435687}
+  - {fileID: 4437847039094581309}
   - {fileID: 2258944066325678329}
   - {fileID: 5770128730339807026}
   - {fileID: 3157648557937196402}
@@ -4756,7 +4788,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8086156292286628862}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00090909976, y: -0.000000017206306, z: -1.5642258e-11, w: 0.9999996}
+  m_LocalRotation: {x: -0.0009090799, y: 0.000000017206604, z: 1.5642185e-11, w: 0.9999996}
   m_LocalPosition: {x: 0, y: 0, z: -16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5090,9 +5122,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 0, z: -16.5}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0

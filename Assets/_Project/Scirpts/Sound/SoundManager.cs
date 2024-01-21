@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _coinSoundObject;
+    [SerializeField] private List<GameObject> _coinSoundObjects;
 
-    [SerializeField] private float _strikeSoundVolume = 0.7f;
+    private List<AudioSource> _coinAudioSoruces;
+    
+    private const float STRIKE_SOUND_VOLUME = 0.5f;
 
     private AudioSource _coinSource;
 
@@ -16,8 +19,8 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
-        _coinSource = _coinSoundObject.GetComponent<AudioSource>();
-
+        _coinAudioSoruces = _coinSoundObjects.Select(x => x.GetComponent<AudioSource>()).ToList();
+        
         _audioSource = GetComponent<AudioSource>();
 
         for (int i = 1; i <= 10; i++)
@@ -31,13 +34,18 @@ public class SoundManager : MonoBehaviour
     {
         var random = new System.Random().Next(0, 10);
         _audioSource.clip = _strikes[random];
-        _audioSource.volume = _strikeSoundVolume;
+        _audioSource.volume = STRIKE_SOUND_VOLUME;
         _audioSource.Play();
         //_audioSource.PlayOneShot(_strikes[random]);
     }
 
     public void Coin()
     {
-        _coinSource.Play();
+        //_coinSource.Play();
+
+        var audioSource = _coinAudioSoruces[0];
+        _coinAudioSoruces.RemoveAt(0);
+        _coinAudioSoruces.Add(audioSource);
+        audioSource.Play();
     }
 }

@@ -41,7 +41,7 @@ namespace Levels
             if (_currentLevel == default)
             {
                 Debug.Log("А как ты сюда зашел?!");
-                return null;
+                return default;
             }
             
             SceneManager.LoadScene(_currentLevel.LevelIndex);

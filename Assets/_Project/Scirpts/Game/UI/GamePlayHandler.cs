@@ -71,7 +71,7 @@ public class GamePlayHandler : MonoBehaviour
     {
         _finishPanel.SetActive(false);
         _deadPanel.SetActive(false);
-        if (level == null)
+        if (level == default)
         {
             _gameplayCanvas.SetActive(false);
             _levelsCanvas.SetActive(false);

@@ -56,7 +56,7 @@ namespace Infastructure
         public void OpenMainMenu()
         {
             SceneManager.LoadScene(_mainMenuLevelIndex);
-            OnLevelChanged?.Invoke(null);
+            OnLevelChanged?.Invoke(default);
         }
     }
 }

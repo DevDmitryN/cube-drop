@@ -3153,6 +3153,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bbfeeea74563a27498ed1ba98e11c49c, type: 2}
   - {fileID: 11400000, guid: fda78ae3eafea83418fc6b9a8beb742b, type: 2}
   - {fileID: 11400000, guid: 68343f598da646c42a7890403debb1d2, type: 2}
+  - {fileID: 11400000, guid: bb43ccf527c5eea4eb4ce6fa926a1b24, type: 2}
   _targetFrameRate: 120
 --- !u!1 &3123405135737486324
 GameObject:
@@ -5001,7 +5002,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.16
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

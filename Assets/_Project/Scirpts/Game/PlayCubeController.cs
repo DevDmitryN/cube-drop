@@ -308,11 +308,8 @@ public class PlayCubeController : MonoBehaviour
 
     private void LevelChaged(LevelInfo level)
     {
-        if (level != default)
-        {
-            SetNewInitPosition(level.StartPosition);
-            _state = PlayCubeState.NoAction;
-        }
+        SetNewInitPosition(level.StartPosition);
+        _state = PlayCubeState.NoAction;
     }
     
     private void SetNewInitPosition(Vector3? initPosition = null)

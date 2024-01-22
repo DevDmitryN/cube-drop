@@ -9,5 +9,6 @@ namespace Levels
         public int CoinCount;
         public Vector3 StartPosition;
         public int LevelIndex;
+        public bool IsMainMenu;
     }
 }

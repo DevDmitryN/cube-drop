@@ -71,11 +71,10 @@ public class GamePlayHandler : MonoBehaviour
     {
         _finishPanel.SetActive(false);
         _deadPanel.SetActive(false);
-        if (level == default)
+        if (level.IsMainMenu)
         {
             _gameplayCanvas.SetActive(false);
             _levelsCanvas.SetActive(false);
-        
         }
         else
         {

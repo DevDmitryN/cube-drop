@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ff657304974c62998b96cdbe0bb185, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  CoinCount: 3
+  CoinCount: 1
   StartPosition: {x: -7, y: 0, z: 0}
   LevelIndex: 0
+  IsMainMenu: 0

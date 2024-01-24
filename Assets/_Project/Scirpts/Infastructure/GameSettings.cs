@@ -25,12 +25,22 @@ namespace Infastructure
 
         private void Awake()
         {
+            Debug.Log("GAme settings");
             _saveLevel = PlayerPrefs.HasKey(LAST_LEVEL) ? PlayerPrefs.GetInt(LAST_LEVEL) : 0;
             Application.targetFrameRate = _targetFrameRate;
 
             _levelsLoader = new LevelsLoader(_levels);
         }
-        
+
+        // for develop levels
+        // comment on build
+        // private void OnEnable()
+        // {
+        //     var index = SceneManager.GetActiveScene().buildIndex ;
+        //     var level = _levelsLoader.ChangeLevel(index);
+        //     OnLevelChanged?.Invoke(level);
+        // }
+
         #endregion
         
         public void LastOpenLevel()

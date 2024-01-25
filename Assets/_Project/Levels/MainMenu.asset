@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CoinCount: 0
   StartPosition: {x: 0, y: 0, z: 0}
-  LevelIndex: 3
+  LevelIndex: 4
   IsMainMenu: 1

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   CoinCount: 1
-  StartPosition: {x: -7, y: 0, z: 0}
+  StartPosition: {x: 0, y: 0, z: 0}
   LevelIndex: 0
   IsMainMenu: 0

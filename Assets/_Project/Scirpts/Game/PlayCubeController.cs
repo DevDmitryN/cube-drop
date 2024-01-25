@@ -350,6 +350,12 @@ public class PlayCubeController : MonoBehaviour
 
     #region work with internal properties methods
 
+    public void AddMultiVelocity(float modifer)
+    {
+        _rigidbody.velocity *= modifer;
+    }
+    
+    
     private bool IsCubeStopped()
     {
         return _rigidbody.velocity.magnitude == 0 && _rigidbody.angularVelocity.magnitude == 0;

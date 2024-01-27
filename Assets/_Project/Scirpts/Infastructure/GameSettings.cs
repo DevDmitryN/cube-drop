@@ -34,12 +34,12 @@ namespace Infastructure
 
         // for develop levels
         // comment on build
-        // private void OnEnable()
-        // {
-        //     var index = SceneManager.GetActiveScene().buildIndex ;
-        //     var level = _levelsLoader.ChangeLevel(index);
-        //     OnLevelChanged?.Invoke(level);
-        // }
+        private void OnEnable()
+        {
+            var index = SceneManager.GetActiveScene().buildIndex ;
+            var level = _levelsLoader.ChangeLevel(index);
+            OnLevelChanged?.Invoke(level);
+        }
 
         #endregion
         

@@ -330,6 +330,7 @@ public class PlayCubeController : MonoBehaviour
             _initPosition = new Vector3(transform.position.x, transform.position.y + _initHeight, 0);
         }
         _rigidbody.velocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
         FreezePosition(true);
 
     }

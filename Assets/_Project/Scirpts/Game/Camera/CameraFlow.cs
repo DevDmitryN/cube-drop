@@ -69,7 +69,6 @@ public class CameraFlow : MonoBehaviour
         }
 
         _transporter.m_FollowOffset = new Vector3(0, 0, _transporter.m_FollowOffset.z - UNZOOM_SPEED * Time.deltaTime);
-        //* _curve.Evaluate(-1 * (_transporter.m_FollowOffset.z + -1 * Z_OFFSET) / (Z_OFFSET + -1 * Z_OFFSET_ON_DROP)));
     }
 
     private void ZoomingCameraWithTransition()
@@ -81,7 +80,6 @@ public class CameraFlow : MonoBehaviour
         }
 
         _transporter.m_FollowOffset = new Vector3(0, 0, _transporter.m_FollowOffset.z + ZOOM_SPEED * Time.deltaTime);
-        // * _curve.Evaluate((_transporter.m_FollowOffset.z + -1 * Z_OFFSET_ON_DROP) / (Z_OFFSET + -1 * Z_OFFSET_ON_DROP)));
     }
 
     private void ZoomCamera()

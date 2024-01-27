@@ -25,7 +25,7 @@ namespace Infastructure
 
         private void Awake()
         {
-            // _saveLevel = PlayerPrefs.HasKey(LAST_LEVEL) ? PlayerPrefs.GetInt(LAST_LEVEL) : 0;
+            //_saveLevel = PlayerPrefs.HasKey(LAST_LEVEL) ? PlayerPrefs.GetInt(LAST_LEVEL) : 0;
             _saveLevel = 0;
             Application.targetFrameRate = _targetFrameRate;
 

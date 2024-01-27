@@ -1,12 +1,15 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace _Project.Scirpts.Game.Platforms
 {
     public class PerpendicularPlatform : Platform
     {
-
+        
         [SerializeField] private float _velocityMultiplier = 20;
+
+        [Inject] private SoundManager _soundManager;
 
         private Transform _transform;
         
@@ -32,6 +35,7 @@ namespace _Project.Scirpts.Game.Platforms
             if (other.TryGetComponent<PlayCubeController>(out var controller))
             {
                 controller.SetVelocity(_direction * _velocityMultiplier);
+                _soundManager.Jump();
             }
         }
 

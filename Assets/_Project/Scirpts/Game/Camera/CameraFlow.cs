@@ -1,6 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 using _Project.Scirpts.Game.Camera;
+using Levels;
 
 public class CameraFlow : MonoBehaviour
 {
@@ -33,10 +34,10 @@ public class CameraFlow : MonoBehaviour
         switch( _cameraState)
         {
             case State.Drag:
-                UnzoomCameraWithTransition();
+                UnzoomingCameraWithTransition();
                 break;
             case State.RiseUp:
-                ZoomCameraWithTransition();
+                ZoomingCameraWithTransition();
                 break;
         }
     }
@@ -53,10 +54,13 @@ public class CameraFlow : MonoBehaviour
             case PlayCubeController.PlayCubeState.RiseUp:
                 _cameraState = State.RiseUp;
                 break;
+            case PlayCubeController.PlayCubeState.NoAction:
+                ZoomCamera();
+                break;
         }
     }
 
-    private void UnzoomCameraWithTransition()
+    private void UnzoomingCameraWithTransition()
     {
         if (_transporter.m_FollowOffset.z < Z_OFFSET_ON_DROP)
         {
@@ -68,7 +72,7 @@ public class CameraFlow : MonoBehaviour
         //* _curve.Evaluate(-1 * (_transporter.m_FollowOffset.z + -1 * Z_OFFSET) / (Z_OFFSET + -1 * Z_OFFSET_ON_DROP)));
     }
 
-    private void ZoomCameraWithTransition()
+    private void ZoomingCameraWithTransition()
     {
         if (_transporter.m_FollowOffset.z > Z_OFFSET)
         {
@@ -78,5 +82,10 @@ public class CameraFlow : MonoBehaviour
 
         _transporter.m_FollowOffset = new Vector3(0, 0, _transporter.m_FollowOffset.z + ZOOM_SPEED * Time.deltaTime);
         // * _curve.Evaluate((_transporter.m_FollowOffset.z + -1 * Z_OFFSET_ON_DROP) / (Z_OFFSET + -1 * Z_OFFSET_ON_DROP)));
+    }
+
+    private void ZoomCamera()
+    {
+        _transporter.m_FollowOffset = new Vector3(0, 0, Z_OFFSET);
     }
 }

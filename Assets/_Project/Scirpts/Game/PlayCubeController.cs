@@ -121,12 +121,12 @@ public class PlayCubeController : MonoBehaviour
 
         _angles = gameObject.transform.eulerAngles;
         
-        GameSettings.OnLevelChanged += LevelChaged;
+        GameSettings.OnLevelChanged += LevelChanged;
     }
 
     private void OnDisable()
     {
-        GameSettings.OnLevelChanged -= LevelChaged;
+        GameSettings.OnLevelChanged -= LevelChanged;
     }
 
     // Update is called once per frame
@@ -311,10 +311,11 @@ public class PlayCubeController : MonoBehaviour
         return _gamePlayHandler.DecrementLife();
     }
 
-    private void LevelChaged(LevelInfo level)
+    private void LevelChanged(LevelInfo level)
     {
         SetNewInitPosition(level.StartPosition);
         _state = PlayCubeState.NoAction;
+        OnStateChanged?.Invoke(_state);
     }
     
     private void SetNewInitPosition(Vector3? initPosition = null)

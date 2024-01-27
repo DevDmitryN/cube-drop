@@ -356,7 +356,11 @@ public class PlayCubeController : MonoBehaviour
     {
         _rigidbody.velocity *= modifer;
     }
-    
+
+    public void SetVelocity(Vector3 velocity)
+    {
+        _rigidbody.velocity = velocity;
+    }
     
     private bool IsCubeStopped()
     {

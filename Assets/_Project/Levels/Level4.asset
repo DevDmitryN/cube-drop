@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ff657304974c62998b96cdbe0bb185, type: 3}
   m_Name: Level4
   m_EditorClassIdentifier: 
-  CoinCount: 3
+  CoinCount: 4
   StartPosition: {x: -14.6, y: -0.77, z: -0.13163939}
   LevelIndex: 3
   IsMainMenu: 0

@@ -10,5 +10,6 @@ namespace Levels
         public Vector3 StartPosition;
         public int LevelIndex;
         public bool IsMainMenu;
+        public Vector3 CameraPosition;
     }
 }

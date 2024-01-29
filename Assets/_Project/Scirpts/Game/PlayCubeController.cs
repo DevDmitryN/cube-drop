@@ -16,6 +16,7 @@ public class PlayCubeController : MonoBehaviour
 
     [Inject] SoundManager _soundManager;
 
+    [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] Camera _camera;
 
     [SerializeField] private TrajectionLine _trajectionLine;
@@ -178,6 +179,7 @@ public class PlayCubeController : MonoBehaviour
 
     private bool TryHandleDrag()
     {
+        if(!IsCanStart) return false;
         if (Input.GetMouseButtonDown(0))
         {
             var newPosition = GetMousePosition();
@@ -232,6 +234,8 @@ public class PlayCubeController : MonoBehaviour
             _state = PlayCubeState.Drop;
             
             OnStateChanged?.Invoke(PlayCubeState.Drop);
+            _particleSystem.Simulate(2f);
+            _particleSystem.Play();
             return false;
         }
         
@@ -272,6 +276,8 @@ public class PlayCubeController : MonoBehaviour
 
     private void HandleDrop()
     {
+        if(!IsCanStart) return;
+        
         if (IsCubeStopped())
         {
             FreezePosition(true);
@@ -311,11 +317,16 @@ public class PlayCubeController : MonoBehaviour
         return _gamePlayHandler.DecrementLife();
     }
 
+    public bool IsCanStart;
+    
     private void LevelChanged(LevelInfo level)
     {
         SetNewInitPosition(level.StartPosition);
         _state = PlayCubeState.NoAction;
         OnStateChanged?.Invoke(_state);
+        IsCanStart = false;
+        _particleSystem.Stop();
+        _particleSystem.Clear();
     }
     
     private void SetNewInitPosition(Vector3? initPosition = null)

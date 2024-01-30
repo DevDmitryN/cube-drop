@@ -234,8 +234,8 @@ public class PlayCubeController : MonoBehaviour
             _state = PlayCubeState.Drop;
             
             OnStateChanged?.Invoke(PlayCubeState.Drop);
-            _particleSystem.Simulate(2f);
-            _particleSystem.Play();
+            // _particleSystem.Simulate(2f);
+            // _particleSystem.Play();
             return false;
         }
         
@@ -325,8 +325,8 @@ public class PlayCubeController : MonoBehaviour
         _state = PlayCubeState.NoAction;
         OnStateChanged?.Invoke(_state);
         IsCanStart = false;
-        _particleSystem.Stop();
-        _particleSystem.Clear();
+        // _particleSystem.Stop();
+        // _particleSystem.Clear();
     }
     
     private void SetNewInitPosition(Vector3? initPosition = null)
@@ -380,7 +380,7 @@ public class PlayCubeController : MonoBehaviour
 
     private void FreezePosition(bool freeze)
     {
-        _rigidbody.constraints = freeze ? RigidbodyConstraints.FreezePosition : RigidbodyConstraints.FreezePositionZ;
+        _rigidbody.constraints = freeze ? RigidbodyConstraints.FreezeAll : RigidbodyConstraints.FreezePositionZ;
     }
 
     private void RotateArround(float angleStep)

@@ -16,4 +16,4 @@ MonoBehaviour:
   StartPosition: {x: -11.03, y: 17.95, z: 0}
   LevelIndex: 7
   IsMainMenu: 0
-  CameraPosition: {x: 0, y: 0, z: -35}
+  CameraPosition: {x: 0, y: 14.99, z: -35}

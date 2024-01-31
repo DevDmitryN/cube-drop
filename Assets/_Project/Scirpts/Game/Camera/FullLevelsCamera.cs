@@ -33,6 +33,9 @@ namespace _Project.Scirpts.Game.Camera
         private async void LevelLoaded(LevelInfo level)
         {
             _transform.DOKill();
+            if (level.IsMainMenu)
+                return;
+            
             _mainCamera.SetActive(false);
             _splashSreen.SetActive(true);
             _transform.position = level.CameraPosition;

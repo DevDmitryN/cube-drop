@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5525610653071687987}
   - component: {fileID: 8812283353328192836}
   - component: {fileID: 931928701852304064}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3f2a01151486f1c479a07fa263e525bc, type: 2}
+  - {fileID: 2100000, guid: fc04cafed64b29b48ac6d45d8b9f58b9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -118,5 +118,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb26f6c21dbccd943b741ee89ef33bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cointRotationSpeed: 2
-  _soundManager: {fileID: 0}

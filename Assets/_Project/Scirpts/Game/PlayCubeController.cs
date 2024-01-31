@@ -16,7 +16,7 @@ public class PlayCubeController : MonoBehaviour
 
     [Inject] SoundManager _soundManager;
 
-    [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] private TrailRenderer _trailRender;
     [SerializeField] Camera _camera;
 
     [SerializeField] private TrajectionLine _trajectionLine;
@@ -325,8 +325,7 @@ public class PlayCubeController : MonoBehaviour
         _state = PlayCubeState.NoAction;
         OnStateChanged?.Invoke(_state);
         IsCanStart = false;
-        // _particleSystem.Stop();
-        // _particleSystem.Clear();
+        _trailRender.Clear();
     }
     
     private void SetNewInitPosition(Vector3? initPosition = null)

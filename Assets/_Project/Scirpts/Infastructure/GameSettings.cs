@@ -15,7 +15,7 @@ namespace Infastructure
         [SerializeField] private int _targetFrameRate;
         
         private LevelsLoader _levelsLoader;
-        private int _mainMenuLevelIndex = 5;
+        private int _mainMenuLevelIndex = 10;
         private int _saveLevel = 0;
         private const string LAST_LEVEL = "LastLevel";
 
@@ -30,6 +30,7 @@ namespace Infastructure
             Application.targetFrameRate = _targetFrameRate;
 
             _levelsLoader = new LevelsLoader(_levels);
+            OpenMainMenu();
         }
 
         // for develop levels

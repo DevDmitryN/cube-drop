@@ -264,7 +264,7 @@ public class PlayCubeController : MonoBehaviour
                 _currentPosition = new Vector3(newPositionX, newPositionY, 0);
             }
 
-            _trajectionLine.UpdateDestination(_currentPosition, distanceFromInit);
+            _trajectionLine.UpdateDestination(_currentPosition, distanceFromInit, _velocityDropCoefficient);
 
             RotateArround(distanceFromInit * _angularVelocityDropCoefficient);
 

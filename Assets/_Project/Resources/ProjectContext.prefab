@@ -146,6 +146,14 @@ LineRenderer:
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -198,7 +206,7 @@ LineRenderer:
     numCapVertices: 1
     alignment: 0
     textureMode: 3
-    textureScale: {x: 1, y: 0}
+    textureScale: {x: 0.1, y: 0}
     shadowBias: 0.5
     generateLightingData: 0
   m_MaskInteraction: 0
@@ -3700,7 +3708,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4310089831520822036}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0009090799, y: 0.000000017206604, z: 1.5642185e-11, w: 0.9999996}
+  m_LocalRotation: {x: -0.00090909976, y: -0.000000017206306, z: -1.5642258e-11, w: 0.9999996}
   m_LocalPosition: {x: 0, y: 0, z: -16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6317,7 +6325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7133523400282804262}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0009090799, y: 0.000000017206604, z: 1.5642185e-11, w: 0.9999996}
+  m_LocalRotation: {x: -0.00090909976, y: -0.000000017206306, z: -1.5642258e-11, w: 0.9999996}
   m_LocalPosition: {x: 0, y: 0, z: -16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

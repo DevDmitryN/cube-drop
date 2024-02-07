@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Levels
 {
@@ -11,5 +12,8 @@ namespace Levels
         public int LevelIndex;
         public bool IsMainMenu;
         public Vector3 CameraPosition;
+        public bool IsEducational;
+        public Vector3 EducationFinishPoint;
+        public Vector3 EducationCoinPoint;
     }
 }

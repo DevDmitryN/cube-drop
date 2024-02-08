@@ -79,7 +79,8 @@ public class PlayCubeController : MonoBehaviour
     }
 
     private float _maxDistanceFromInitPosition = 2f;
-    
+
+    private float _returnToInitDistance = 0.7f;
     
     #endregion
 
@@ -150,6 +151,9 @@ public class PlayCubeController : MonoBehaviour
             case PlayCubeState.Finish:
                 HandleFinishState();
                 break;
+            case PlayCubeState.ReturnToInit:
+                RotateArround(_defaultAngleStep);
+                break;
         }
     }
     
@@ -201,6 +205,23 @@ public class PlayCubeController : MonoBehaviour
             var newPosition = GetMousePosition();
 
             var distanceFromInit = Vector3.Distance(newPosition, _initPosition);
+
+            if (distanceFromInit <= _returnToInitDistance)
+            {
+                _mouseActionState.IsBtnHolded = false;
+                _trajectionLine.Deactivate();
+                _state = PlayCubeState.ReturnToInit;
+                OnStateChanged?.Invoke(_state);
+                
+                _transform.DOMove(_initPosition, _riseUpTime)
+                    .OnComplete(() =>
+                    {
+                        _state = PlayCubeState.NoAction;
+                        OnStateChanged?.Invoke(_state);
+                    });
+                
+                return false;
+            }
 
             distanceFromInit = Mathf.Min(distanceFromInit, _maxDistanceFromInitPosition);
 
@@ -417,7 +438,8 @@ public class PlayCubeController : MonoBehaviour
         Drag,
         RiseUp,
         Finish,
-        Dead
+        Dead,
+        ReturnToInit,
     }
 }
 

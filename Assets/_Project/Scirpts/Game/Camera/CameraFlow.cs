@@ -52,6 +52,7 @@ public class CameraFlow : MonoBehaviour
                 _cameraState = State.Drag;
                 break;
             case PlayCubeController.PlayCubeState.RiseUp:
+            case PlayCubeController.PlayCubeState.ReturnToInit:
                 _cameraState = State.RiseUp;
                 break;
             case PlayCubeController.PlayCubeState.NoAction:

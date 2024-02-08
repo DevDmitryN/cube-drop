@@ -114,6 +114,10 @@ namespace _Project.Scirpts.Game.Camera
             _mainCamera.SetActive(false);
             _splashSreen.SetActive(true);
             _transform.position = _level.CameraPosition;
+            
+            _educationText.gameObject.SetActive(true);
+            _educationText.text = "Привет";
+            
             await Task.Delay(50);
             
             _camera.enabled = true;

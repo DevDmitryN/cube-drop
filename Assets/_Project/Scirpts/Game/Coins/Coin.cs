@@ -6,6 +6,10 @@ using Zenject;
 public class Coin : MonoBehaviour
 {
     public static event Action OnCoinCollected;
+
+    [SerializeField] private GameObject _particle;
+    
+    private ParticleSystem _psEffect;
     
     private readonly Vector3 TARGET_ROTATION_ANGLES = new Vector3(360, 360, 180);
     private const float COIN_ROTATION_SPEED = 8;
@@ -29,6 +33,7 @@ public class Coin : MonoBehaviour
              .SetRelative()
              .SetEase(Ease.Linear)
              .SetLoops(-1, LoopType.Incremental);
+         _psEffect = _particle.GetComponent<ParticleSystem>();
     }
 
     private void OnDisable()
@@ -40,6 +45,7 @@ public class Coin : MonoBehaviour
     {
         if (other.GetComponent<PlayCubeController>()) 
         {
+            _psEffect.Play();
             _soundManager.Coin();
             OnCoinCollected?.Invoke();
             DOTween.Kill(transform); 

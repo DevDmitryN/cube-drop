@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Infastructure;
 using Levels;
 using TMPro;
@@ -103,10 +104,25 @@ public class GamePlayHandler : MonoBehaviour
         if (state == PlayCubeController.PlayCubeState.Finish)
         {
             _finishPanel.SetActive(true);
+            AppMetrica.Instance.ReportEvent("level_start", new Dictionary<string, object>
+            {
+                {"level", LevelsLoader.CurrentLevel.LevelIndex},
+                {"days since reg", (DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("StartDate"))).TotalDays},
+                {"time_spent", (int)PlayCubeController.Timer},
+
+            });
+            AppMetrica.Instance.SendEventsBuffer();
         }
         else if (state == PlayCubeController.PlayCubeState.Dead)
         {
             _deadPanel.SetActive(true);
+            AppMetrica.Instance.ReportEvent("level_start", new Dictionary<string, object>
+            {
+                {"level", LevelsLoader.CurrentLevel.LevelIndex},
+                {"days since reg", (DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("StartDate"))).TotalDays},
+                {"time_spent", (int)PlayCubeController.Timer},
+                {"reason", "Spend lives"},
+            });
         }
     }
 }

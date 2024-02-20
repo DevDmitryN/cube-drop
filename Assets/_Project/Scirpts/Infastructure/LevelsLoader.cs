@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Levels
 {
-    public class LevelsLoader 
+    public class LevelsLoader
     {
+        public static LevelInfo CurrentLevel;
         private LevelInfo _currentLevel;
         private readonly List<LevelInfo> _levelInfos;
 
@@ -13,6 +15,7 @@ namespace Levels
         {
             _levelInfos = levelInfos;
             _currentLevel = levelInfos[0];
+            CurrentLevel = levelInfos[0];
         }
 
         public LevelInfo ChangeLevel(int level)
@@ -33,6 +36,13 @@ namespace Levels
             var levelInfo = _levelInfos[level];
             SceneManager.LoadScene(levelInfo.LevelIndex);
             _currentLevel = _levelInfos[level];
+            CurrentLevel = _levelInfos[level];
+            AppMetrica.Instance.ReportEvent("level_start", new Dictionary<string, object>
+            {
+                {"level", _currentLevel.LevelIndex},
+                {"days since reg", (DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("StartDate"))).TotalDays}
+            });
+            AppMetrica.Instance.SendEventsBuffer();
             return _currentLevel;
         }
         

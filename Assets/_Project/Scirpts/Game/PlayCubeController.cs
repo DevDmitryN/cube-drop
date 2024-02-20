@@ -1,4 +1,5 @@
 using System;
+using System.Timers;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
@@ -11,6 +12,7 @@ using Zenject;
 
 public class PlayCubeController : MonoBehaviour
 {
+    public static float Timer;
     public static event Action<PlayCubeState> OnStateChanged;
     #region serialize fields
 
@@ -134,6 +136,7 @@ public class PlayCubeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Timer += Time.deltaTime;
         switch (_state)
         {
             case PlayCubeState.NoAction:
@@ -348,6 +351,7 @@ public class PlayCubeController : MonoBehaviour
         OnStateChanged?.Invoke(_state);
         IsCanStart = false;
         _trailRender.Clear();
+        Timer = 0f;
     }
     
     private void SetNewInitPosition(Vector3? initPosition = null)

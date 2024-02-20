@@ -11,6 +11,7 @@ namespace Infastructure
     {
         public static event Action<LevelInfo> OnLevelChanged;
         
+        
         [SerializeField] private List<LevelInfo> _levels; 
         [SerializeField] private int _targetFrameRate;
         
@@ -28,7 +29,11 @@ namespace Infastructure
             _saveLevel = PlayerPrefs.HasKey(LAST_LEVEL) ? PlayerPrefs.GetInt(LAST_LEVEL) : 0;
             _saveLevel = 0;
             Application.targetFrameRate = _targetFrameRate;
-
+            if (!PlayerPrefs.HasKey("StartDate"))
+            {
+                PlayerPrefs.SetString("StartDate", DateTime.Now.ToString());
+                PlayerPrefs.Save();
+            };
             _levelsLoader = new LevelsLoader(_levels);
             OpenMainMenu();
         }

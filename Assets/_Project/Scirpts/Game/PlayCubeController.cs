@@ -342,6 +342,7 @@ public class PlayCubeController : MonoBehaviour
     
     private void LevelChanged(LevelInfo level)
     {
+        DOTween.Kill(_transform);
         SetNewInitPosition(level.StartPosition);
         _state = PlayCubeState.NoAction;
         OnStateChanged?.Invoke(_state);

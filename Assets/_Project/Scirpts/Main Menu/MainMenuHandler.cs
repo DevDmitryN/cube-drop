@@ -21,7 +21,7 @@ public class MainMenuHandler : MonoBehaviour
 
     public void StartGame()
     {
-        _gameSettings.RestartLevel();
+        _gameSettings.LastOpenLevel();
     }
 
     public void ContinueGame()

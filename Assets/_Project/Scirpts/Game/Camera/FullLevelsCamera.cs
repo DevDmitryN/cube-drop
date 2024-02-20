@@ -6,6 +6,7 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Infastructure;
 using JetBrains.Annotations;
+using Lean.Localization;
 using Levels;
 using TMPro;
 using UnityEngine;
@@ -116,7 +117,7 @@ namespace _Project.Scirpts.Game.Camera
             _transform.position = _level.CameraPosition;
             
             _educationText.gameObject.SetActive(true);
-            _educationText.text = "Привет";
+            _educationText.text = LeanLocalization.GetTranslationText("Привет");
             
             await Task.Delay(50);
             
@@ -131,7 +132,7 @@ namespace _Project.Scirpts.Game.Camera
                 .OnComplete(() =>
                 {
                     _educationText.gameObject.SetActive(true);
-                    _educationText.text = "Это финишь. Для прохождения уровней тебе нужно попасть сюда.";
+                    _educationText.text =  LeanLocalization.GetTranslationText("Это финиш. Для прохождения уровней тебе нужно попасть сюда.");
                     _isMovementEnded = true;
                 });
         }
@@ -147,9 +148,9 @@ namespace _Project.Scirpts.Game.Camera
                 .OnComplete(() =>
                 {
                     _educationText.gameObject.SetActive(true);
-                    _educationText.text = "Это монетки. " +
-                                          "\n Ты можешь их собрирать, в будущем они могут тебе пригодиться." +
-                                          "\n Количество монеток показывается выше.";
+                    _educationText.text = LeanLocalization.GetTranslationText("Это монетки. ") +
+                                                                              "\n "+LeanLocalization.GetTranslationText("Ты можешь их собрирать, в будущем они могут тебе пригодиться.") +
+                                                                              "\n "+LeanLocalization.GetTranslationText("Количество монеток показывается выше.");
                     _isMovementEnded = true;
                 });
         }
@@ -162,10 +163,10 @@ namespace _Project.Scirpts.Game.Camera
                 .OnComplete(() =>
                 {
                     _educationText.gameObject.SetActive(true);
-                    _educationText.text = "Это твой кубик. " +
-                                          "\n Потяни за него и попади в финишь. " +
-                                          "\n Чем сильнее ты его тянешь, тем быстее он полетит." +
-                                          "\n Количество попыток отображается выше рядом с сердечками.";
+                    _educationText.text = LeanLocalization.GetTranslationText("Это твой кубик. ") +
+                                                                              "\n "+LeanLocalization.GetTranslationText("Потяни за него и попади в финишь. ") +
+                                                                              "\n "+LeanLocalization.GetTranslationText("Чем сильнее ты его тянешь, тем быстее он полетит.") +
+                                                                              "\n "+LeanLocalization.GetTranslationText("Количество попыток отображается выше рядом с сердечками.");
                     _isMovementEnded = true;
                 });
         }

@@ -104,10 +104,10 @@ public class GamePlayHandler : MonoBehaviour
         if (state == PlayCubeController.PlayCubeState.Finish)
         {
             _finishPanel.SetActive(true);
-            AppMetrica.Instance.ReportEvent("level_start", new Dictionary<string, object>
+            AppMetrica.Instance.ReportEvent("level_complete", new Dictionary<string, object>
             {
                 {"level", LevelsLoader.CurrentLevel.LevelIndex},
-                {"days since reg", (DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("StartDate"))).TotalDays},
+                {"days since reg", (int)(DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("StartDate"))).TotalDays},
                 {"time_spent", (int)PlayCubeController.Timer},
 
             });
@@ -116,10 +116,10 @@ public class GamePlayHandler : MonoBehaviour
         else if (state == PlayCubeController.PlayCubeState.Dead)
         {
             _deadPanel.SetActive(true);
-            AppMetrica.Instance.ReportEvent("level_start", new Dictionary<string, object>
+            AppMetrica.Instance.ReportEvent("level_fail", new Dictionary<string, object>
             {
                 {"level", LevelsLoader.CurrentLevel.LevelIndex},
-                {"days since reg", (DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("StartDate"))).TotalDays},
+                {"days since reg", (int)(DateTime.Now - DateTime.Parse(PlayerPrefs.GetString("StartDate"))).TotalDays},
                 {"time_spent", (int)PlayCubeController.Timer},
                 {"reason", "Spend lives"},
             });

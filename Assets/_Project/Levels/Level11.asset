@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74ff657304974c62998b96cdbe0bb185, type: 3}
-  m_Name: MainMenu
+  m_Name: Level11
   m_EditorClassIdentifier: 
-  CoinCount: 0
+  CoinCount: 1
   StartPosition: {x: 0, y: 0, z: 0}
-  LevelIndex: 11
-  IsMainMenu: 1
-  CameraPosition: {x: 0, y: 0, z: -12}
-  IsEducational: 0
-  EducationFinishPoint: {x: 0, y: 0, z: 0}
-  EducationCoinPoint: {x: 0, y: 0, z: 0}
+  LevelIndex: 10
+  IsMainMenu: 0
+  CameraPosition: {x: 0, y: 0, z: -20}
+  IsEducational: 1
+  EducationFinishPoint: {x: 14.3, y: 0, z: 0}
+  EducationCoinPoint: {x: 6.84, y: 0, z: 0}

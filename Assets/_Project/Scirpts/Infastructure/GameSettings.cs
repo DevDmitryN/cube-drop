@@ -16,7 +16,7 @@ namespace Infastructure
         [SerializeField] private int _targetFrameRate;
         
         private LevelsLoader _levelsLoader;
-        private int _mainMenuLevelIndex = 10;
+        private int _mainMenuLevelIndex = 11;
         private int _saveLevel = 0;
         private const string LAST_LEVEL = "LastLevel";
 
@@ -40,12 +40,13 @@ namespace Infastructure
 
         // for develop levels
         // comment on build
-        // private void OnEnable()
-        // {
-        //     var index = SceneManager.GetActiveScene().buildIndex ;
-        //     var level = _levelsLoader.ChangeLevel(index);
-        //     OnLevelChanged?.Invoke(level);
-        // }
+        private void OnEnable()
+        {
+            var index = SceneManager.GetActiveScene().buildIndex ;
+            Debug.Log(index);
+            var level = _levelsLoader.ChangeLevel(index);
+            OnLevelChanged?.Invoke(level);
+        }
 
         #endregion
         

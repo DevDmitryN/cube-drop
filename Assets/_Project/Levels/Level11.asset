@@ -17,6 +17,6 @@ MonoBehaviour:
   LevelIndex: 10
   IsMainMenu: 0
   CameraPosition: {x: 0, y: 0, z: -20}
-  IsEducational: 1
+  IsEducational: 0
   EducationFinishPoint: {x: 14.3, y: 0, z: 0}
   EducationCoinPoint: {x: 6.84, y: 0, z: 0}

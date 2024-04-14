@@ -10,7 +10,7 @@ public class GamePlayHandler : MonoBehaviour
 {
     [Header("Health Bar")]
     [SerializeField] private TextMeshProUGUI _lifeCounterText;
-    private readonly int _defaultLifeAmount = 3;
+    private readonly int _defaultLifeAmount = 100;
     private int _currentLifeAmount;
     [Header("Coins")]
     [SerializeField] private TextMeshProUGUI _coinCounterText;

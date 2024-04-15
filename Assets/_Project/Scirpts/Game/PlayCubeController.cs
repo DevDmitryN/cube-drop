@@ -54,6 +54,9 @@ public class PlayCubeController : MonoBehaviour
 
     private float _maxRotationDeltaTime = 0.03f;
     private float _rotationDeltaTime;
+    
+    private float _maxUpdateDirectionDeltaTime = 0.01f;
+    private float _updateDirectionDeltaTime;
 
     #endregion
 
@@ -74,11 +77,15 @@ public class PlayCubeController : MonoBehaviour
 
     private Vector3 _initPosition;
 
+    private Vector3 _prevPosition;
+    
     private Vector3 _currentPosition
     {
         get { return _transform.position; }
         set { _transform.position = value; }
     }
+
+    private Vector3 _direction;
 
     private float _maxDistanceFromInitPosition = 2f;
 
@@ -165,6 +172,36 @@ public class PlayCubeController : MonoBehaviour
         if (_state == PlayCubeState.Drop)
         {
             _soundManager.Strike();
+        }
+    }
+
+    /// <summary>
+    /// Возвращает угол наклона направления движения
+    /// </summary>
+    /// <returns></returns>
+    public float GetDirectionAngle()
+    {
+        return Mathf.Rad2Deg * Mathf.Atan2(_direction.y, _direction.x);
+    }
+
+    /// <summary>
+    /// Обновляет вектор движения кубика
+    /// </summary>
+    private void UpdateDirection()
+    {
+        _updateDirectionDeltaTime += Time.deltaTime;
+
+        if (_updateDirectionDeltaTime >= _maxUpdateDirectionDeltaTime)
+        {
+            _updateDirectionDeltaTime = 0;
+            var direction = _currentPosition * 100 - _prevPosition * 100;
+
+            if (direction != Vector3.zero)
+            {
+                _direction = direction;
+                _prevPosition = _currentPosition;
+            }
+           
         }
     }
 
@@ -300,6 +337,8 @@ public class PlayCubeController : MonoBehaviour
 
     private void HandleDrop()
     {
+        UpdateDirection();
+        
         if(!IsCanStart) return;
         
         if (IsCubeStopped())

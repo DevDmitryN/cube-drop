@@ -1,9 +1,12 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 public class GaykaTrigger1 : MonoBehaviour
 {
     [SerializeField] private float _velocityMultiplier = 50;
+    
+    [Inject] private SoundManager _soundManager;
     
     private Transform _transform;
 
@@ -45,6 +48,7 @@ public class GaykaTrigger1 : MonoBehaviour
         {
             var fromLeftToRight = box.GetDirectionAngle() > _angleDirectionMin && box.GetDirectionAngle() < _angleDirectionMax;
             box.SetVelocity(GetDirection(fromLeftToRight) * _velocityMultiplier);
+            _soundManager.SpeedUp();
         }
     }
 }

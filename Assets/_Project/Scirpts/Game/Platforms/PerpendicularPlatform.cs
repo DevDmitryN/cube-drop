@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
@@ -15,9 +16,18 @@ namespace _Project.Scirpts.Game.Platforms
         
         private Vector3 _direction = Vector3.left;
 
+        private Material _material;
+
+        private Color _defaultColor;
+
+        private Animator _animator;
+
         private void Awake()
         {
             _transform = GetComponent<Transform>();
+            _material = GetComponent<Renderer>().material;
+            _defaultColor = _material.color;
+            _animator = GetComponent<Animator>();
         }
 
         private void OnEnable()
@@ -29,11 +39,23 @@ namespace _Project.Scirpts.Game.Platforms
 
             _direction = new Vector3(directionX, directionY, 0);
         }
+        
+        private void OnDisable()
+        {
+            DOTween.Kill(_material);
+        }
 
         protected override void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent<PlayCubeController>(out var controller))
             {
+                _animator.SetTrigger("TrPlay");
+                _material.DOColor(Color.yellow,0.1f)
+                    .OnComplete(() =>
+                    {
+                        _material.DOColor(_defaultColor, 0.2f);
+                    });
+                
                 controller.SetVelocity(_direction * _velocityMultiplier);
                 _soundManager.Jump();
             }

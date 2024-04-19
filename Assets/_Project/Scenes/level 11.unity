@@ -404,17 +404,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3497179387082838269, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497179387082838269, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 4583242844583259147, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
       propertyPath: m_Name
       value: PerpendicularPlatform
       objectReference: {fileID: 0}
     - target: {fileID: 6516901037369810995, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.890001
+      value: -27.49
       objectReference: {fileID: 0}
     - target: {fileID: 6516901037369810995, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5507367
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 6516901037369810995, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1029,11 +1037,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6516901037369810995, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.38
+      value: 21.17
       objectReference: {fileID: 0}
     - target: {fileID: 6516901037369810995, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.54073673
+      value: 0.54
       objectReference: {fileID: 0}
     - target: {fileID: 6516901037369810995, guid: a065688c6ab76a946ba2bad28178d431, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1522,12 +1530,16 @@ PrefabInstance:
       value: Gayka
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3116883
+      objectReference: {fileID: 0}
+    - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.4506702
+      value: -7.4507
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.8344564
+      value: 0.77
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1535,19 +1547,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.48160338
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.8763893
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1559,7 +1571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4323144611189395039, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 237.58
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 7001276904765182643, guid: 9c8b88325521fd844b1d4ef99a72d361, type: 3}
       propertyPath: _gaykaMainObject

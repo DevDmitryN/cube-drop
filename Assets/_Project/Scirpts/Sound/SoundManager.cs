@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> _gaykaSoundObjects;
     
+    [SerializeField] private List<GameObject> _damageSoundObjects;
+    
     private List<AudioSource> _coinAudioSources;
     
     private List<AudioSource> _strikeAudioSources;
@@ -20,6 +22,8 @@ public class SoundManager : MonoBehaviour
     private List<AudioSource> _jumpAudioSources;
 
     private List<AudioSource> _gaykaAudioSources;
+    
+    private List<AudioSource> _damageAudioSources;
 
     private void Awake()
     {
@@ -27,6 +31,7 @@ public class SoundManager : MonoBehaviour
         _strikeAudioSources = _strikeSoundObjects.Select(x => x.GetComponent<AudioSource>()).ToList();
         _jumpAudioSources = _jumpSoundObjects.Select(x => x.GetComponent<AudioSource>()).ToList();
         _gaykaAudioSources = _gaykaSoundObjects.Select(x => x.GetComponent<AudioSource>()).ToList();
+        _damageAudioSources = _damageSoundObjects.Select(x => x.GetComponent<AudioSource>()).ToList();
     }
 
     private void PlayFromList(List<AudioSource> list, int index)
@@ -56,5 +61,10 @@ public class SoundManager : MonoBehaviour
     public void SpeedUp()
     {
         PlayFromList(_gaykaAudioSources, 0);
+    }
+    
+    public void Damage()
+    {
+        PlayFromList(_damageAudioSources, 0);
     }
 }

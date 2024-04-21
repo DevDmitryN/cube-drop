@@ -87,9 +87,9 @@ public class GamePlayHandler : MonoBehaviour
         }
     }
 
-    public bool DecrementLife()
+    public bool DecrementLife(int amount = 1)
     {
-        _currentLifeAmount--;
+        _currentLifeAmount -= amount;
         _lifeCounterText.text = _currentLifeAmount.ToString();
         return _currentLifeAmount == 0;
     }

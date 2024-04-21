@@ -93,6 +93,14 @@ public class PlayCubeController : MonoBehaviour
     
     #endregion
 
+    #region Material
+
+    private Material _material;
+
+    private Color _defaultColor;
+
+    #endregion
+    
     #region Getters
 
     public PlayCubeState GetState()
@@ -131,6 +139,10 @@ public class PlayCubeController : MonoBehaviour
         FreezePosition(true);
 
         _angles = gameObject.transform.eulerAngles;
+
+        _material = GetComponent<Renderer>().material;
+
+        _defaultColor = _material.color;
         
         GameSettings.OnLevelChanged += LevelChanged;
     }
@@ -427,6 +439,16 @@ public class PlayCubeController : MonoBehaviour
 
     #region work with internal properties methods
 
+    public void TakeDamage(int damageAmount = 1)
+    {
+        _gamePlayHandler.DecrementLife(damageAmount);
+        _soundManager.Damage();
+        _material.color = Color.white;
+        _material.DOColor(_defaultColor, 0.5f);
+        // _material.DOColor(Color.white, 0.2f)
+        //     .OnComplete(() => { _material.color = _defaultColor; });
+    }
+    
     public void AddMultiVelocity(float modifer)
     {
         _rigidbody.velocity *= modifer;
@@ -435,6 +457,11 @@ public class PlayCubeController : MonoBehaviour
     public void SetVelocity(Vector3 velocity)
     {
         _rigidbody.velocity = velocity;
+    }
+
+    public Vector3 GetVelocity()
+    {
+        return _rigidbody.velocity;
     }
     
     private bool IsCubeStopped()
@@ -485,6 +512,8 @@ public class PlayCubeController : MonoBehaviour
         Dead,
         ReturnToInit,
     }
+
+    
 }
 
 public class MouseActionState

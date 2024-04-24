@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level11
   m_EditorClassIdentifier: 
   CoinCount: 1
-  StartPosition: {x: 0, y: 0, z: 0}
+  StartPosition: {x: -41.06, y: -0.2, z: 0}
   LevelIndex: 10
   IsMainMenu: 0
   CameraPosition: {x: 0, y: 0, z: -20}

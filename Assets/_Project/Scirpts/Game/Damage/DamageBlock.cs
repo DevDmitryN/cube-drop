@@ -19,15 +19,15 @@ public class DamageBlock : MonoBehaviour
         {
             cube.TakeDamage(1);
             
-            var directionAngle = cube.GetDirectionAngle() + 180;;
-            var directionX = Mathf.Cos(directionAngle);
-            var directionY = Mathf.Sin(directionAngle);
-        
-            var direction = new Vector3(directionX, directionY, 0);
+            // var directionAngle = cube.GetDirectionAngle();
+            // var directionX = Mathf.Cos(directionAngle);
+            // var directionY = Mathf.Sin(directionAngle);
+            //
+            // var direction = new Vector3(directionX, directionY, 0);
+            //
+            // cube.SetVelocity(direction * _velocityModifier);
             
-            cube.SetVelocity(direction * _velocityModifier);
-            
-            Debug.DrawLine(GetComponent<Transform>().position, direction, Color.red, 2);
+            // Debug.DrawLine(GetComponent<Transform>().position, direction, Color.black, 2);
         }
     }
 }

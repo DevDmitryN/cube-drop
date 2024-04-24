@@ -214,6 +214,7 @@ public class PlayCubeController : MonoBehaviour
                 _prevPosition = _currentPosition;
             }
            
+            Debug.DrawLine(_currentPosition, direction, Color.red, _maxUpdateDirectionDeltaTime);
         }
     }
 

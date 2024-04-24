@@ -55,9 +55,12 @@ namespace _Project.Scirpts.Game.Platforms
                     {
                         _material.DOColor(_defaultColor, 0.2f);
                     });
+                var velocity = _direction * _velocityMultiplier;
                 
-                controller.SetVelocity(_direction * _velocityMultiplier);
+                controller.SetVelocity(velocity);
                 _soundManager.Jump();
+                
+                Debug.DrawLine(_transform.position, velocity, Color.blue, 1);
             }
         }
 

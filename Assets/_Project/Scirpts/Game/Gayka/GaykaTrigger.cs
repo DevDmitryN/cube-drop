@@ -47,8 +47,10 @@ public class GaykaTrigger1 : MonoBehaviour
         if (other.TryGetComponent<PlayCubeController>(out var box))
         {
             var fromLeftToRight = box.GetDirectionAngle() > _angleDirectionMin && box.GetDirectionAngle() < _angleDirectionMax;
-            box.SetVelocity(GetDirection(fromLeftToRight) * _velocityMultiplier);
+            var velocity = GetDirection(fromLeftToRight) * _velocityMultiplier;
+            box.SetVelocity(velocity);
             _soundManager.SpeedUp();
+            Debug.DrawLine(_transform.position, velocity, Color.green, 1);
         }
     }
 }
